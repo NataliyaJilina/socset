@@ -5,12 +5,12 @@ import { LoginWith } from "../../components/LoginWith/LoginWith";
 import { AppHeading } from "../../components/Typography/AppHeading/AppHeading";
 import { SCLoginPage } from "./LoginPage.styled";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 interface ILoginForm {
   useremail: string;
-  password: string;
+  userpassword: string;
 }
 
 const loginFormSchema = yup.object({
@@ -22,16 +22,43 @@ const loginFormSchema = yup.object({
 });
 
 export const LoginPage = () => {
-  const {control, handleSubmit, formState: {errors}} = useForm({resolver: yupResolver(loginFormSchema)})
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginFormSchema),
+    defaultValues: { useremail: "", userpassword: "" },
+  });
+
+  const onLoginFormSubmit: SubmitHandler<ILoginForm> = (data) => {
+    console.log(data);
+
+  }
+
   return (
     <SCLoginPage>
       <AppHeading headingText={"Авторизация"} headingType={"h1"} />
-      <form action="#">
-        <AppInput inputType={"tel"} inputPlaceholder={"Номер телефона"} />
-        <AppInput inputType={"password"} inputPlaceholder={"Пароль"} />
-        <Link to={"/main"}>
-          <AppButton buttonText={"Войти"} />
-        </Link>
+      <form onSubmit={handleSubmit(onLoginFormSubmit)}>
+
+        <Controller
+          name="useremail"
+          control={control}
+          render={({field}) => (
+            <AppInput isError={errors.useremail ? true: false} errorMessage={errors.useremail?.message} type={"email"} placeholder={"Почта"} {...field} />
+          )}
+        />
+
+          <Controller
+          name="userpassword"
+          control={control}
+          render={({field}) => (
+            <AppInput isError={errors.userpassword ? true: false} errorMessage={errors.userpassword?.message} type={"password"} placeholder={"Пароль"} {...field} />
+          )}
+        />       
+       
+          <AppButton buttonText={"Войти"} type={"submit"} />
+        
       </form>
       <Link to="#">Забыли пароль?</Link>
       <div className="registration">

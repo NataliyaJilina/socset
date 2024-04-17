@@ -1,10 +1,28 @@
-import { SCAppInput } from "./AppInput.styled";
+import { ErrorMessage, SCAppInput } from "./AppInput.styled";
 
-type AppInputProps = {
-  inputType: string;
-  inputPlaceholder: string;
-};
+interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  errorMessage?: string;
+  isError?: boolean;
+}
 
-export const AppInput = ({ inputPlaceholder, inputType }: AppInputProps) => {
-  return <SCAppInput type={inputType} placeholder={inputPlaceholder} />;
+export const AppInput = ({
+  type,
+  placeholder,
+  required,
+  isError,
+  errorMessage,
+  ...props
+}: IInputProps) => {
+  return (
+    <div>
+    <SCAppInput 
+      $isError={isError || false}
+      type={type}
+      placeholder={placeholder}
+      required={required}
+      {...props}
+    />
+    {isError && <ErrorMessage>{errorMessage}</ErrorMessage>}
+    </div>
+  );
 };

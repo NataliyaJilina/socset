@@ -1,19 +1,36 @@
-import styled from "styled-components";
+import { css, styled } from "styled-components";
 
+export const ErrorMessage = styled.p`
+  color: ${(props) => props.theme.colors.red};
+  margin-top: 10px;
+`;
 
-export const SCAppInput = styled.input`
-    display: block;
-    width: 100%;
-    margin-bottom: 20px;
-    border: 2px solid ${(props) => props.theme.colors.disabledBgc};
-    background-color: transparent;
+interface IStyledInputProps {
+  $isError: boolean;
+}
 
-    &:last-child {
-      margin-bottom: 40px;
-    }
+export const SCAppInput = styled.input<IStyledInputProps>`
+  outline: 0;
+  font-family: inherit;
+  padding: 12px 15px;
+  background-color: ${(props) => props.theme.colors.bgc};
+  border-radius: 10px;
+  border: 2px solid ${(props) => props.theme.colors.disabledBgc};
+  width: 100%;
 
-    &:is(:hover, :focus) {
-      border-color: ${(props) => props.theme.colors.primeColor};
-    }
-  
-`
+  ${(props) =>
+    props.$isError &&
+    css`
+      border-color: ${(props) => props.theme.colors.red};
+    `}
+
+  transition: 200ms;
+
+  &:is(:hover, :focus) {
+    border-color: ${(props) => props.theme.colors.primeColor};
+  }
+
+  @media (max-width: 730px) {
+    padding: 10px 12px;
+  }
+`;
