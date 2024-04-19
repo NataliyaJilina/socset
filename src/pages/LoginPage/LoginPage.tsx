@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppButton } from "../../components/UI/AppButton/AppButton";
 import { AppInput } from "../../components/UI/AppInput/AppInput";
 import { LoginWith } from "../../components/LoginWith/LoginWith";
@@ -31,8 +31,14 @@ export const LoginPage = () => {
     defaultValues: { useremail: "", userpassword: "" },
   });
 
+  const navigate = useNavigate()
+
   const onLoginFormSubmit: SubmitHandler<ILoginForm> = (data) => {
-    console.log(data);
+    if (data){
+      navigate("/main")
+    }else{
+      navigate("/")
+    }
 
   }
 

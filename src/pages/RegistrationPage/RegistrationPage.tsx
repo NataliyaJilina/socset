@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginWith } from "../../components/LoginWith/LoginWith";
 import { AppHeading } from "../../components/Typography/AppHeading";
 import { AppButton } from "../../components/UI/AppButton/AppButton";
@@ -43,8 +43,14 @@ export const RegistrationPage = () => {
     },
   });
 
+  const navigate = useNavigate()
+
   const onRegFormSubmit: SubmitHandler<IRegForm> = (data) => {
-    console.log(data);
+    if (data){
+      navigate("/")
+    }else{
+      navigate("/registration")
+    }
   };
 
   return (
@@ -56,7 +62,7 @@ export const RegistrationPage = () => {
           name="username"
           control={control}
           render={({ field }) => (
-            <AppInput type={"text"} placeholder={"Имя"} {...field} />
+            <AppInput isError={errors.username ? true: false} errorMessage={errors.username?.message} type={"text"} placeholder={"Имя"} {...field} />
           )}
         />
 
@@ -64,7 +70,7 @@ export const RegistrationPage = () => {
           name="useremail"
           control={control}
           render={({ field }) => (
-            <AppInput type={"email"} placeholder={"Почта"} {...field} />
+            <AppInput isError={errors.useremail ? true: false} errorMessage={errors.useremail?.message} type={"email"} placeholder={"Почта"} {...field} />
           )}
         />
 
@@ -72,7 +78,7 @@ export const RegistrationPage = () => {
           name="userphone"
           control={control}
           render={({ field }) => (
-            <AppInput type={"tel"} placeholder={"Номер телефона"} {...field} />
+            <AppInput isError={errors.userphone ? true: false} errorMessage={errors.userphone?.message} type={"tel"} placeholder={"Номер телефона"} {...field} />
           )}
         />
 
@@ -80,7 +86,7 @@ export const RegistrationPage = () => {
           name="userpassword"
           control={control}
           render={({ field }) => (
-            <AppInput type={"password"} placeholder={"Пароль"} {...field} />
+            <AppInput isError={errors.userpassword ? true: false} errorMessage={errors.userpassword?.message} type={"password"} placeholder={"Пароль"} {...field} />
           )}
         />
 
@@ -88,7 +94,7 @@ export const RegistrationPage = () => {
           name="usercity"
           control={control}
           render={({ field }) => (
-            <AppInput type={"text"} placeholder={"Город"} {...field} />
+            <AppInput isError={errors.usercity ? true: false} errorMessage={errors.usercity?.message} type={"text"} placeholder={"Город"} {...field} />
           )}
         />
         {/* <AppInput inputType={"text"} inputPlaceholder={"Введите имя"} />
