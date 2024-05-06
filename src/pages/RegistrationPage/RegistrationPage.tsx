@@ -7,6 +7,8 @@ import { SCLoginPage } from "../LoginPage/LoginPage.styled";
 import * as yup from "yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRegisterUserMutation } from "../../store/api/userApi";
+import { useEffect } from "react";
 
 interface IRegForm {
   username: string;
@@ -43,14 +45,30 @@ export const RegistrationPage = () => {
     },
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [registerUser, { data }] = useRegisterUserMutation();
+
+  useEffect(()=>{
+    if (data?.user_id) {
+      navigate("/");
+      console.log(data);
+      console.log(error);
+    } else {
+      navigate("/registration");
+    } 
+  }, [data, navigate])
+
+ 
 
   const onRegFormSubmit: SubmitHandler<IRegForm> = (data) => {
-    if (data){
-      navigate("/")
-    }else{
-      navigate("/registration")
-    }
+    registerUser({
+      email: data.useremail,
+      password: data.userpassword,
+      name: data.username,
+      phone_number: data.userphone,
+      user_city: data.usercity,
+    });
+    
   };
 
   return (
@@ -62,7 +80,13 @@ export const RegistrationPage = () => {
           name="username"
           control={control}
           render={({ field }) => (
-            <AppInput isError={errors.username ? true: false} errorMessage={errors.username?.message} type={"text"} placeholder={"Имя"} {...field} />
+            <AppInput
+              isError={errors.username ? true : false}
+              errorMessage={errors.username?.message}
+              type={"text"}
+              placeholder={"Имя"}
+              {...field}
+            />
           )}
         />
 
@@ -70,7 +94,13 @@ export const RegistrationPage = () => {
           name="useremail"
           control={control}
           render={({ field }) => (
-            <AppInput isError={errors.useremail ? true: false} errorMessage={errors.useremail?.message} type={"email"} placeholder={"Почта"} {...field} />
+            <AppInput
+              isError={errors.useremail ? true : false}
+              errorMessage={errors.useremail?.message}
+              type={"email"}
+              placeholder={"Почта"}
+              {...field}
+            />
           )}
         />
 
@@ -78,7 +108,13 @@ export const RegistrationPage = () => {
           name="userphone"
           control={control}
           render={({ field }) => (
-            <AppInput isError={errors.userphone ? true: false} errorMessage={errors.userphone?.message} type={"tel"} placeholder={"Номер телефона"} {...field} />
+            <AppInput
+              isError={errors.userphone ? true : false}
+              errorMessage={errors.userphone?.message}
+              type={"tel"}
+              placeholder={"Номер телефона"}
+              {...field}
+            />
           )}
         />
 
@@ -86,7 +122,13 @@ export const RegistrationPage = () => {
           name="userpassword"
           control={control}
           render={({ field }) => (
-            <AppInput isError={errors.userpassword ? true: false} errorMessage={errors.userpassword?.message} type={"password"} placeholder={"Пароль"} {...field} />
+            <AppInput
+              isError={errors.userpassword ? true : false}
+              errorMessage={errors.userpassword?.message}
+              type={"password"}
+              placeholder={"Пароль"}
+              {...field}
+            />
           )}
         />
 
@@ -94,7 +136,13 @@ export const RegistrationPage = () => {
           name="usercity"
           control={control}
           render={({ field }) => (
-            <AppInput isError={errors.usercity ? true: false} errorMessage={errors.usercity?.message} type={"text"} placeholder={"Город"} {...field} />
+            <AppInput
+              isError={errors.usercity ? true : false}
+              errorMessage={errors.usercity?.message}
+              type={"text"}
+              placeholder={"Город"}
+              {...field}
+            />
           )}
         />
         {/* <AppInput inputType={"text"} inputPlaceholder={"Введите имя"} />

@@ -1,3 +1,5 @@
+import { data } from "../FollowersList/data"
+
 export const Bio = () => {
     return(
         <div className="bio">

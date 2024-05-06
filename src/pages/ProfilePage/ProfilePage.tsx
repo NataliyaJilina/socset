@@ -9,10 +9,19 @@ import { ProfileHeader } from "../../components/ProfileHeader/Profileheader";
 import { Header } from "../../components/UI/Header/Header";
 import { UserPosts } from "../../components/UserPosts/UserPosts";
 import { WhatsNew } from "../../components/WhatsNew/Whatsnew";
+import { useGetUserByIDQuery } from "../../store/api/userApi";
 import "./ProfilePage.scss";
 import { SCProfilePage } from "./ProfilePage.styled";
 
+
+
 export const ProfilePage = () => {
+
+  const user_id = localStorage.getItem('user_id');
+  const {data} = useGetUserByIDQuery(Number(user_id))
+  console.log(data);
+
+
   return (
 <SCProfilePage>
     <Header />
